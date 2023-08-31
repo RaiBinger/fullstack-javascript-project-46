@@ -11,9 +11,6 @@ const genDiff = (pathToFile1, pathToFile2) => {
   const parsedFile1 = parsed(file1Content);
   const parsedFile2 = parsed(file2Content);
 
-  // console.log(parsedFile1);
-  // console.log(parsedFile2);
-
   const keysFile1 = Object.keys(parsedFile1).sort();
   const keysFile2 = Object.keys(parsedFile2).sort();
 
