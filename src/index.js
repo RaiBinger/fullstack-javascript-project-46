@@ -2,39 +2,39 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const getAbsPath = (pathToFile) => path.resolve(process.cwd(), pathToFile);
-const parsed = (file) => JSON.parse(file);
+const getParsed = (file) => JSON.parse(file);
 
-const genDiff = (pathToFile1, pathToFile2) => {
-  const file1Content = fs.readFileSync(getAbsPath(pathToFile1));
-  const file2Content = fs.readFileSync(getAbsPath(pathToFile2));
+const genDiff = (pathToFileOne, pathToFileTwo) => {
+  const fileOneContent = fs.readFileSync(getAbsPath(pathToFileOne));
+  const fileTwoContent = fs.readFileSync(getAbsPath(pathToFileTwo));
 
-  const parsedFile1 = parsed(file1Content);
-  const parsedFile2 = parsed(file2Content);
+  const parsedFileOne = getParsed(fileOneContent);
+  const parsedFileTwo = getParsed(fileTwoContent);
 
-  const keysFile1 = Object.keys(parsedFile1).sort();
-  const keysFile2 = Object.keys(parsedFile2).sort();
+  const keysFileOne = Object.keys(parsedFileOne).sort();
+  const keysFileTwo = Object.keys(parsedFileTwo).sort();
 
-  const checkedFile1 = keysFile1.reduce((acc, keyFile1) => {
-    let tmp;
-    if (!parsedFile2.hasOwnProperty(keyFile1)) {
-      tmp = `  - ${keyFile1}: ${parsedFile1[keyFile1]}`;
+  const checkedFileOneByFileTwo = keysFileOne.reduce((acc, keyFileOne) => {
+    let string;
+    if (!parsedFileTwo.hasOwnProperty(keyFileOne)) {
+      string = `  - ${keyFileOne}: ${parsedFileOne[keyFileOne]}`;
     }
-    if (parsedFile2.hasOwnProperty(keyFile1)) {
-      if (parsedFile2[keyFile1] === parsedFile1[keyFile1]) {
-        tmp = `    ${keyFile1}: ${parsedFile1[keyFile1]}`;
+    if (parsedFileTwo.hasOwnProperty(keyFileOne)) {
+      if (parsedFileTwo[keyFileOne] === parsedFileOne[keyFileOne]) {
+        string = `    ${keyFileOne}: ${parsedFileOne[keyFileOne]}`;
       } else {
-        tmp = [`  - ${keyFile1}: ${parsedFile1[keyFile1]}`, `  + ${keyFile1}: ${parsedFile2[keyFile1]}`];
+        string = [`  - ${keyFileOne}: ${parsedFileOne[keyFileOne]}`, `  + ${keyFileOne}: ${parsedFileTwo[keyFileOne]}`];
       }
     }
-    return [...acc, tmp];
+    return [...acc, string];
   }, []).flat();
   
-  const checkedFile2 = keysFile2.reduce((acc, keyFile2) => {
-    if (!parsedFile1.hasOwnProperty(keyFile2)) {
-      return [...acc, `  + ${keyFile2}: ${parsedFile2[keyFile2]}`];
+  const checkedFileTwoByFileOne = keysFileTwo.reduce((acc, keyFileTwo) => {
+    if (!parsedFileOne.hasOwnProperty(keyFileTwo)) {
+      return [...acc, `  + ${keyFileTwo}: ${parsedFileTwo[keyFileTwo]}`];
     }
     return acc;
-  }, checkedFile1);
-  return console.log(`{\n${checkedFile2.join('\n')}\n}`);
+  }, checkedFileOneByFileTwo);
+  return console.log(`{\n${checkedFileTwoByFileOne.join('\n')}\n}`);
 };
 export default genDiff;
