@@ -3,3 +3,6 @@
 
 ### Maintainability:
 <a href="https://codeclimate.com/github/RaiBinger/fullstack-javascript-project-46/maintainability"><img src="https://api.codeclimate.com/v1/badges/f54fdae2984ec7e4990f/maintainability" /></a>
+
+### asciinema fullstack-javascript-project-46
+<a href="https://asciinema.org/a/itkCPrnDgZNsdjA1ZPK4fvzYi" target="_blank"><img src="https://asciinema.org/a/itkCPrnDgZNsdjA1ZPK4fvzYi.svg" /></a>
