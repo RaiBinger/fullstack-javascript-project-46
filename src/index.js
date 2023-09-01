@@ -1,12 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import _ from 'lodash';
+// import _ from 'lodash';
 
 const getAbsPath = (pathToFile) => path.resolve(process.cwd(), pathToFile);
 const getParsed = (file) => JSON.parse(file);
-const unique = (arr) => {
-  return arr.reduce((acc, item) => !acc.includes(item) ? [...acc, item] : acc, []);
-};
+const unique = (arr) => arr.reduce((acc, item) => (!acc.includes(item) ? [...acc, item] : acc), []);
 
 const genDiff = (pathToFileOne, pathToFileTwo) => {
   const fileOneContent = fs.readFileSync(getAbsPath(pathToFileOne));
@@ -20,11 +18,11 @@ const genDiff = (pathToFileOne, pathToFileTwo) => {
   const allKeys = unique(keysFileOne.concat(keysFileTwo).sort());
 
   const checkAllKeys = allKeys.flatMap((key) => {
-    if (!parsedFileTwo.hasOwnProperty(key)) {
+    if (!Object.prototype.hasOwnProperty.call(parsedFileTwo, key)) {
       return `  - ${key}: ${parsedFileOne[key]}`;
     }
 
-    if (!parsedFileOne.hasOwnProperty(key)) {
+    if (!Object.prototype.hasOwnProperty.call(parsedFileOne, key)) {
       return `  + ${key}: ${parsedFileTwo[key]}`;
     }
 
