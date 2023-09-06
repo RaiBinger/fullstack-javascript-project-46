@@ -6,3 +6,6 @@
 
 ### asciinema fullstack-javascript-project-46
 <a href="https://asciinema.org/a/itkCPrnDgZNsdjA1ZPK4fvzYi" target="_blank"><img src="https://asciinema.org/a/itkCPrnDgZNsdjA1ZPK4fvzYi.svg" /></a>
+
+### asciinema fullstack-javascript-project-46 tests
+<a href="https://asciinema.org/a/n2wxPUuSakWAtuyOg4tppALIz" target="_blank"><img src="https://asciinema.org/a/n2wxPUuSakWAtuyOg4tppALIz.svg" /></a>
