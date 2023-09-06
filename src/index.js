@@ -1,17 +1,15 @@
-import fs from 'node:fs';
 import path from 'node:path';
-// import _ from 'lodash';
+import fs from 'node:fs';
+import parse from './parsers.js';
 
-const getAbsPath = (pathToFile) => path.resolve(process.cwd(), pathToFile);
-const getParsed = (file) => JSON.parse(file);
 const unique = (arr) => arr.reduce((acc, item) => (!acc.includes(item) ? [...acc, item] : acc), []);
+const getAbsPath = (pathToFile) => path.resolve(process.cwd(), pathToFile);
+const getData = (file) => fs.readFileSync(getAbsPath(file));
+const getType = (file) => path.extname(file).slice(1);
 
 const genDiff = (pathToFileOne, pathToFileTwo) => {
-  const fileOneContent = fs.readFileSync(getAbsPath(pathToFileOne));
-  const fileTwoContent = fs.readFileSync(getAbsPath(pathToFileTwo));
-
-  const parsedFileOne = getParsed(fileOneContent);
-  const parsedFileTwo = getParsed(fileTwoContent);
+  const parsedFileOne = parse(getData(pathToFileOne), getType(pathToFileOne));
+  const parsedFileTwo = parse(getData(pathToFileTwo), getType(pathToFileTwo));
 
   const keysFileOne = Object.keys(parsedFileOne);
   const keysFileTwo = Object.keys(parsedFileTwo);
@@ -33,7 +31,7 @@ const genDiff = (pathToFileOne, pathToFileTwo) => {
     return [`  - ${key}: ${parsedFileOne[key]}`, `  + ${key}: ${parsedFileTwo[key]}`];
   });
 
-  return console.log(`{\n${checkAllKeys.join('\n')}\n}`);
+  return `{\n${checkAllKeys.join('\n')}\n}`;
 };
 
 export default genDiff;

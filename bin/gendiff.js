@@ -8,5 +8,5 @@ program
   .arguments('filePath1')
   .arguments('filePath2')
   .option('-f, --format <type>', 'output format')
-  .action((arg1, arg2) => genDiff(arg1, arg2));
+  .action((arg1, arg2) => console.log(genDiff(arg1, arg2)));
 program.parse();
