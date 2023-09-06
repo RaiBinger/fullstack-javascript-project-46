@@ -1,6 +1,5 @@
 import yaml from 'js-yaml';
 
-
 const parse = (data, type) => {
   let result;
   if (type === 'json') {
