@@ -12,3 +12,5 @@ test: # комманда для запуска тестов
 	npx jest
 test-coverage:
 	npx jest --coverage --coverageProvider=v8
+test-watch:
+	npx jest --watch

@@ -7,31 +7,56 @@ const getAbsPath = (pathToFile) => path.resolve(process.cwd(), pathToFile);
 const getData = (file) => fs.readFileSync(getAbsPath(file));
 const getType = (file) => path.extname(file).slice(1);
 
+const isObject = (obj) => typeof obj === 'object' && obj !== null;
+const indent = (depth, type = ' ') => type.repeat(depth * 4 - 2);
+
+const stringify = (value, depth) => {
+  if (!isObject(value)) {
+    return `${value}`;
+  }
+
+  const currentIndent = indent(depth);
+  const bracketIndent = indent(depth - 1);
+  const lines = Object
+    .entries(value)
+    .map(([key, val]) => `${currentIndent}  ${key}: ${stringify(val, depth + 1)}`);
+
+  return [
+    '{',
+    ...lines,
+    `${bracketIndent}  }`,
+  ].join('\n');
+};
+
 const genDiff = (pathToFileOne, pathToFileTwo) => {
   const parsedFileOne = parse(getData(pathToFileOne), getType(pathToFileOne));
   const parsedFileTwo = parse(getData(pathToFileTwo), getType(pathToFileTwo));
+  const fn = (partOne, partTwo, depth) => {
+    const keysFileOne = Object.keys(partOne);
+    const keysFileTwo = Object.keys(partTwo);
+    const allKeys = unique(keysFileOne.concat(keysFileTwo).sort());
+    const checkAllKeys = allKeys.flatMap((key) => {
+      if (isObject(partOne[key]) && isObject(partTwo[key])) {
+        return `${indent(depth)}  ${key}: {\n${fn(partOne[key], partTwo[key], depth + 1)}\n${indent(depth)}  }`;
+      }
+      if (!Object.prototype.hasOwnProperty.call(partTwo, key)) {
+        return `${indent(depth)}- ${key}: ${stringify(partOne[key], depth + 1)}`;
+      }
 
-  const keysFileOne = Object.keys(parsedFileOne);
-  const keysFileTwo = Object.keys(parsedFileTwo);
-  const allKeys = unique(keysFileOne.concat(keysFileTwo).sort());
+      if (!Object.prototype.hasOwnProperty.call(partOne, key)) {
+        return `${indent(depth)}+ ${key}: ${stringify(partTwo[key], depth + 1)}`;
+      }
 
-  const checkAllKeys = allKeys.flatMap((key) => {
-    if (!Object.prototype.hasOwnProperty.call(parsedFileTwo, key)) {
-      return `  - ${key}: ${parsedFileOne[key]}`;
-    }
+      if (partTwo[key] === partOne[key]) {
+        return `${indent(depth)}  ${key}: ${stringify(partOne[key], depth + 1)}`;
+      }
 
-    if (!Object.prototype.hasOwnProperty.call(parsedFileOne, key)) {
-      return `  + ${key}: ${parsedFileTwo[key]}`;
-    }
+      return [`${indent(depth)}- ${key}: ${stringify(partOne[key], depth + 1)}`, `${indent(depth)}+ ${key}: ${stringify(partTwo[key], depth + 1)}`];
+    });
 
-    if (parsedFileTwo[key] === parsedFileOne[key]) {
-      return `    ${key}: ${parsedFileOne[key]}`;
-    }
-
-    return [`  - ${key}: ${parsedFileOne[key]}`, `  + ${key}: ${parsedFileTwo[key]}`];
-  });
-
-  return `{\n${checkAllKeys.join('\n')}\n}`;
+    return checkAllKeys.join('\n');
+  };
+  return `{\n${fn(parsedFileOne, parsedFileTwo, 1)}\n}`;
 };
 
 export default genDiff;

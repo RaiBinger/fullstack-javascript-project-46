@@ -11,7 +11,6 @@ const expectedContent = fs.readFileSync(getFixturePath('expected_file.txt', 'utf
 
 test('genDiff JSON', () => {
   expect(genDiff(getFixturePath('./file1.json'), getFixturePath('./file2.json'))).toBe(String(expectedContent));
-  expect(genDiff(getFixturePath('./file1.yaml'), getFixturePath('./file2.yml'))).toBe(String(expectedContent));
 });
 
 test('genDiff YAML', () => {
