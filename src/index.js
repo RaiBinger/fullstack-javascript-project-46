@@ -21,11 +21,7 @@ const stringify = (value, depth) => {
     .entries(value)
     .map(([key, val]) => `${currentIndent}  ${key}: ${stringify(val, depth + 1)}`);
 
-  return [
-    '{',
-    ...lines,
-    `${bracketIndent}  }`,
-  ].join('\n');
+  return ['{', ...lines, `${bracketIndent}  }`].join('\n');
 };
 
 const genDiff = (pathToFileOne, pathToFileTwo) => {
