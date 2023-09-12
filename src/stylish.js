@@ -1,5 +1,5 @@
 const isObject = (obj) => typeof obj === 'object' && obj !== null;
-const indent = (depth, type = ' ') => type.repeat(depth * 4 - 2);
+const indent = (depth, left = 2, tab = 4, type = ' ') => type.repeat(depth * tab - left);
 
 const stringify = (value, depth) => {
   if (!isObject(value)) {
@@ -28,7 +28,7 @@ const stylish = (tree) => {
       } = item;
 
       if (type === 'nested') {
-        return `${indent(depth)}  ${key}: {\n${fn(children, depth + 1)}\n${indent(depth)}  }`;
+        return `${indent(depth)}  ${key}: {\n${fn(children, depth + 1)}\n${indent(depth, 0)}}`;
       }
 
       if (type === 'deleted') {
