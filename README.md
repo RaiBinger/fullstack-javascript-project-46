@@ -11,4 +11,5 @@
 ### asciinema fullstack-javascript-project-46 tests
 <a href="https://asciinema.org/a/n2wxPUuSakWAtuyOg4tppALIz" target="_blank"><img src="https://asciinema.org/a/n2wxPUuSakWAtuyOg4tppALIz.svg" /></a>
 
-
+### asciinema fullstack-javascript-project-46-step-6
+[![asciicast](https://asciinema.org/a/VQwUUfQCpZUuaaiRm1dMYyVb3.svg)](https://asciinema.org/a/VQwUUfQCpZUuaaiRm1dMYyVb3)
