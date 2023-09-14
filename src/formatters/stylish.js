@@ -1,4 +1,5 @@
-const isObject = (obj) => typeof obj === 'object' && obj !== null;
+import isObject from '../utils.js';
+
 const indent = (depth, left = 2, tab = 4, type = ' ') => type.repeat(depth * tab - left);
 
 const stringify = (value, depth) => {
