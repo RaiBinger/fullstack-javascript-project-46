@@ -1,13 +1,15 @@
 import yaml from 'js-yaml';
 
 const parse = (data, type) => {
-  let result;
-  if (type === 'json') {
-    result = JSON.parse(data);
-  } else if (type === 'yml' || type === 'yaml') {
-    result = yaml.load(data);
+  switch (type) {
+    case 'json':
+      return JSON.parse(data);
+    case 'yml':
+    case 'yaml':
+      return yaml.load(data);
+    default:
+      throw new Error('Unexpected file type');
   }
-  return result;
 };
 
 export default parse;

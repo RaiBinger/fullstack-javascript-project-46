@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import isObject from './utils.js';
 
 const unique = (arr) => arr.reduce((acc, item) => (!acc.includes(item) ? [...acc, item] : acc), []);
@@ -5,7 +6,7 @@ const unique = (arr) => arr.reduce((acc, item) => (!acc.includes(item) ? [...acc
 const getDiff = (partOne, partTwo) => {
   const keysFileOne = Object.keys(partOne);
   const keysFileTwo = Object.keys(partTwo);
-  const allKeys = unique(keysFileOne.concat(keysFileTwo).sort());
+  const allKeys = _.cloneDeep(unique(keysFileOne.concat(keysFileTwo).sort()));
   const result = allKeys.map((key) => {
     if (isObject(partOne[key]) && isObject(partTwo[key])) {
       return { key, children: getDiff(partOne[key], partTwo[key]), type: 'nested' };
