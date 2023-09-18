@@ -10,6 +10,7 @@ const getDiff = (partOne, partTwo) => {
     if (isObject(partOne[key]) && isObject(partTwo[key])) {
       return { key, children: getDiff(partOne[key], partTwo[key]), type: 'nested' };
     }
+
     if (!Object.prototype.hasOwnProperty.call(partTwo, key)) {
       return { key, value: partOne[key], type: 'deleted' };
     }
