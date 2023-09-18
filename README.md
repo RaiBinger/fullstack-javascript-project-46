@@ -16,3 +16,6 @@
 
 ### asciinema fullstack-javascript-project-46-step-7
 [![asciicast](https://asciinema.org/a/CcyNbVhKSHm3Inlx8tGwyepQp.svg)](https://asciinema.org/a/CcyNbVhKSHm3Inlx8tGwyepQp)
+
+### asciinema fullstack-javascript-project-46-step-8
+[![asciicast](https://asciinema.org/a/USmL1kq8YyQOXyxboCnOxoxFd.svg)](https://asciinema.org/a/USmL1kq8YyQOXyxboCnOxoxFd)
