@@ -24,3 +24,11 @@ test('genDiff JSON plain', () => {
 test('genDiff YAML plain', () => {
   expect(genDiff(getFixturePath('./file1.yaml'), getFixturePath('./file2.yml'), 'plain')).toBe(String(expectedContent('expected_plain.txt')));
 });
+
+test('genDiff JSON json', () => {
+  expect(genDiff(getFixturePath('./file1.json'), getFixturePath('./file2.json'), 'json')).toBe(String(expectedContent('expected_json.txt')));
+});
+
+test('genDiff YAML json', () => {
+  expect(genDiff(getFixturePath('./file1.yaml'), getFixturePath('./file2.yml'), 'json')).toBe(String(expectedContent('expected_json.txt')));
+});
