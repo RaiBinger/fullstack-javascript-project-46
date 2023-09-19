@@ -8,7 +8,7 @@ const parse = (data, type) => {
     case 'yaml':
       return yaml.load(data);
     default:
-      throw new Error('Unexpected file type');
+      throw new Error(`Unexpected file type: ${type}`);
   }
 };
 

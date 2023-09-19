@@ -7,28 +7,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const expectedContent = (nameFile) => fs.readFileSync(getFixturePath(nameFile));
+const expectedStylish = fs.readFileSync(getFixturePath('expected_stylish.txt'));
+const expectedPlain = fs.readFileSync(getFixturePath('expected_plain.txt'));
 
-test('genDiff JSON stylish', () => {
-  expect(genDiff(getFixturePath('./file1.json'), getFixturePath('./file2.json'))).toBe(String(expectedContent('expected_stylish.txt')));
-});
-
-test('genDiff YAML stylish', () => {
-  expect(genDiff(getFixturePath('./file1.yaml'), getFixturePath('./file2.yml'))).toBe(String(expectedContent('expected_stylish.txt')));
-});
-
-test('genDiff JSON plain', () => {
-  expect(genDiff(getFixturePath('./file1.json'), getFixturePath('./file2.json'), 'plain')).toBe(String(expectedContent('expected_plain.txt')));
-});
-
-test('genDiff YAML plain', () => {
-  expect(genDiff(getFixturePath('./file1.yaml'), getFixturePath('./file2.yml'), 'plain')).toBe(String(expectedContent('expected_plain.txt')));
-});
-
-test('genDiff JSON json', () => {
-  expect(genDiff(getFixturePath('./file1.json'), getFixturePath('./file2.json'), 'json')).toBe(String(expectedContent('expected_json.txt')));
-});
-
-test('genDiff YAML json', () => {
-  expect(genDiff(getFixturePath('./file1.yaml'), getFixturePath('./file2.yml'), 'json')).toBe(String(expectedContent('expected_json.txt')));
+test.each([
+  [getFixturePath('./file1.json'), getFixturePath('./file2.json')],
+  [getFixturePath('./file1.yaml'), getFixturePath('./file2.yml')],
+])('genDiff %s %s', (filePath1, filePath2) => {
+  expect(genDiff(filePath1, filePath2)).toBe(String(expectedStylish));
+  expect(genDiff(filePath1, filePath2, 'stylish')).toBe(String(expectedStylish));
+  expect(genDiff(filePath1, filePath2, 'plain')).toBe(String(expectedPlain));
+  const diff = genDiff(filePath1, filePath2, 'json');
+  expect(() => JSON.parse(diff)).not.toThrow();
 });

@@ -1,15 +1,13 @@
 import _ from 'lodash';
 import isObject from './utils.js';
 
-const unique = (arr) => arr.reduce((acc, item) => (!acc.includes(item) ? [...acc, item] : acc), []);
-
-const getDiff = (partOne, partTwo) => {
+const buildTree = (partOne, partTwo) => {
   const keysFileOne = Object.keys(partOne);
   const keysFileTwo = Object.keys(partTwo);
-  const allKeys = _.sortBy(unique(keysFileOne.concat(keysFileTwo)));
+  const allKeys = _.sortBy(_.uniq(keysFileOne.concat(keysFileTwo)));
   const result = allKeys.map((key) => {
     if (isObject(partOne[key]) && isObject(partTwo[key])) {
-      return { key, children: getDiff(partOne[key], partTwo[key]), type: 'nested' };
+      return { key, children: buildTree(partOne[key], partTwo[key]), type: 'nested' };
     }
 
     if (!Object.prototype.hasOwnProperty.call(partTwo, key)) {
@@ -34,4 +32,4 @@ const getDiff = (partOne, partTwo) => {
   return result;
 };
 
-export default getDiff;
+export default buildTree;
