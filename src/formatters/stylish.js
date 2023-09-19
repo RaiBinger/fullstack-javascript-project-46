@@ -1,9 +1,9 @@
-import isObject from '../utils.js';
+import _ from 'lodash';
 
 const indent = (depth, left = 2, tab = 4, type = ' ') => type.repeat(depth * tab - left);
 
 const stringify = (value, depth) => {
-  if (!isObject(value)) {
+  if (!_.isObject(value)) {
     return `${value}`;
   }
 

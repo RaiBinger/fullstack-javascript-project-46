@@ -1,7 +1,7 @@
-import isObject from '../utils.js';
+import _ from 'lodash';
 
 const stringify = (value) => {
-  if (isObject(value)) {
+  if (_.isObject(value)) {
     return '[complex value]';
   }
   if (typeof value === 'string') {
